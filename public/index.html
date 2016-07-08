@@ -56,11 +56,12 @@
 				<div id="date" class="date"></div>
 			</div>
 
-			<!-- ***** Speaker (see ang.directive.js ) ********* -->
+			<!-- 
+			*** Directive 'speaker'
+			*** toggles chat sound on/off, changes visual appearance
+			*** see 'ang.directives.js'
+			-->
 			<div speaker callback-controller="toggleSound(switchTo)" sound="{{soundInit}}" ></div>
-			<!--div class="sound" target="_blank" title="mute">
-				<span class="sound-on" ></span>
-			</div-->
 
 			<!-- ***** Github Octocat ********* -->
 			<a class="social" href="https://github.com/hroesser/Node.js-Chat" target="_blank" title="this project at github">
@@ -98,22 +99,14 @@
 				</div>
 				<div class="update-line clearboth" ></div>
 
-				<!--  Google nach Wahlin !   div class="onlineusers" id="onlineusers">
-					<div>
-						<div class="circle-header14 circle-header-current" id="user_0"></div>
-						<span class="online-user online-user-current" id="span_0">Hermann</span>
-					</div>
-				</div >
-				<div  - - - -  works * class="onlineusers" id="onlineusers" >
-					   <div ng-repeat="user in userList.users" >
-							<div  class="circle-header14 circle-header-current"  ></div>
-							<span class="online-user online-user-current" ><div-user>{{user}}</div-user> </span>
-					   </div>ng-init="testusers = [ { id: 1, name: 'hans' }, { id: 2, name: 'herbert'}, {  id: 3, name: 'sarah'} ]"	  datasource="participants.users" action="togglePm()"   
-				</div  -->
-
 				<div class="onlineusers" id="onlineusers" >
 					<div ng-repeat="user in participants.users">
-						<!-- chatter div-user  callback-controller="togglePm(arg1,arg2,arg3)" ></chatter-->
+						<!-- 
+						*** Directive 'divUser'
+						*** toggles Private Message to remote user
+						*** changes appearance from white to orange
+						*** see 'ang.directives.js'
+						 -->
 						<chatter div-user user="user"  callback-controller="togglePm(name,state,index)"   ></chatter>
 					</div>	
 				</div>
