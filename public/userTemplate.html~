@@ -1,0 +1,2 @@
+	<div  class="circle-header14 circle-header-current"  ></div>
+	<span class="online-user online-user-current" ng-click="privateMessage( '{user}' ) ">{{user}}</span>

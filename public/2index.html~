@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html ng-app="chatApp">
+  <head>
+    <meta charset="UTF-8"/>
+    <meta name="google" content="notranslate" />
+    <meta name="author" content="Hermann Rösser"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="icon" type="image/x-icon" href="img/favicon.ico" />
+	<link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400|Open+Sans:400,500,700" />
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <title>angular.js chat</title>
+	<!-- script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script -->
+	<script src="js/jquery.1.10.2.min.js"></script>
+	<script src="socket.io/socket.io.js"></script>
+	<script src="js/simpleClock.min.js"></script>
+
+	<!-- Angular statisch -->
+	<script src="/js/angular1.4.0.js"></script>
+
+	<!-- der Wrapper für socket.io zur Kommunikation mit Angular -->
+	<script src="js/socketLib.min.js"></script>
+
+	<!-- die ang.app, die client.js gewissermassen ersetzt -->
+	<script src="js/ang.app.js"></script>
+
+	<!-- die ang. komponenten -->
+	<script src="js/ang.config.js"></script>
+	<script src="js/ang.controllers.js"></script>
+	<script src="js/ang.services.js"></script>
+	<script src="js/ang.helpers.js"></script>
+	<script src="js/ang.directives.js"></script>
+	<script src="js/ang.filters.js"></script>
+
+	<!--script type="text/javascript" src="js/client.js"></script -->
+	<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script> --
+	
+    <!--  **** Copyrights: 
+	https://github.com/ticktoo/simpleClock
+	https://github.com/pubnub/pubnub-chat-channel-presence
+	http://handlebarsjs.com/
+
+	Frontend inspired by 'PubNub Channel Presence'
+	https://github.com/pubnub/pubnub-chat-channel-presence
+	**** -->  
+
+	<script>
+		$(document).ready(function()	{
+			$('#clock').simpleClock();
+		});
+	</script>
+</head>
+
+<body>
+	<div id="main" ng-controller="chatAppCtrl">
+
+		 <!--  ***** Sidebar Top ********* -->
+		 <div class="sidebar">
+
+			<!-- ***** Clock ********* -->
+			<div id="clock"> 
+				<div id="time" class="time"></div>
+				<div id="date" class="date"></div>
+			</div>
+
+			<!-- ***** Github Octocat ********* -->
+			<a class="social" href="https://github.com/hroesser/Node.js-Chat" target="_blank" title="this project at github">
+				<span class="github-logo" > </span>
+			</a>
+
+			<!-- ***** debug ********* 
+			<div style="position:fixed;left:145px;font-size:12px;" >chatCt: <span id="displayCountChat"></span></div>
+			<div style="position:fixed;left:145px; top: 35px; font-size:12px;" > <div id="cbh"></div></div>
+			<div style="position:fixed;left:145px; top: 55px; font-size:12px;" > <div id="cbi"></div></div>
+			-->
+
+			<!-- ***** orange bar ********* -->
+			<div class="time-hr"></div>
+
+			<!--  ***** Server Messages ********* -->
+			<div id="update-area" class="update-area">
+				<div>
+					<div class="update-item"  ng-repeat="serverMessage in serverMessages"    >
+				   		<span class="update-time"  t="">{{serverMessage.time}}</span>
+						{{serverMessage.name}}: {{serverMessage.text}}
+				   	</div>
+				   	<div class="update-line"></div>
+				</div>
+			</div>
+
+		</div> <!-- /Sidebar-->
+
+		<!--  ***** Sidebar Down, Userbox ********* -->
+		<div class="userbox" >
+				<!-- {"usercount":1,"users":["Hermann"]} $scope.userList    {"usercount":1,"users":["Hans"]}        -->
+				<div>
+
+
+					   <div class="update-item" style="" >
+						User online (<span id="usercount">{{ userList.usercount || 0}}</span>)
+					   </div>
+					   <div  class="update-line" ></div>
+					   <div ng-repeat="user in userList.users"  user="{{user}}" >
+							<div>  {{user}}  </div>
+					   </div>
+				</div>
+				<div id="onlineusers" class="onlineusers">
+				</div>
+		</div><!-- /userbox -->
+
+		<!--  ***** Right Bar, Headline, Greeting, Logo...  ********* -->
+		<div class="top-header-chat">
+					<div id="top-header-chat-left" class="top-header-chat-left">{{serverStatus}}</div>
+					<div id="statusBar" class="top-servermessage" >{{serverGreeting}}</div>
+					<div class="top-header-chat-right">Node.js Chat</div>
+
+					<audio id="chatAudio" width="1" height="1">
+					  <source src="../sound/chat.ogg" type="audio/ogg" />
+					  Your browser does not support HTML5 audio.
+					</audio>
+
+					<!-- Chat Box Input Wrapper -->
+					<div class="chat-box-plain">
+
+							<!-- *** Chat Input. show/hide by ang.-->
+							<div class="chat-box-area" id="chat-box-send" ng-show="showChatBar" >
+								<form ng-submit="emitChat('enter')" >
+									<div class="chat-box-area-inset">
+										<div class="relative" id="chat-box-pre">
+											<span id="layer-pm-to" class="layer-pm-to">{{pmTo}}</span>
+											<input id="chatText" 
+													style="position: relative; width: auto;" 
+													class="chat-box-input" 
+													placeholder="chat, min. 4 char." 
+													ng-model="chatText" 
+													maxlength="210" />
+											<button id="senden" type="submit" class="chat-box-button" >Send</button>
+										</div>
+									</div>
+								</form>
+							</div>
+
+							<!-- *** Login. show/hide by ang. -->
+							<div class="chat-box-area" id="chat-box-login" ng-show="showLogin"> 
+								<form ng-submit="emitLogout('enter')" >
+									<div class="chat-box-area-inset">
+										<div class="relative">
+											<input id="chatName" ng-model="chatName" class="chat-box-input" placeholder="Login" maxlength="12" />
+											<button id="login" class="chat-box-button" ng-click="emitLogin()" >Login</button>
+										</div>
+									</div>
+								</form>
+							</div>
+							<button id="logout" class="logout-button" ng-show="showChatBar" ng-click="emitLogout()" >Logout</button>
+					</div>
+
+		</div><!-- /top-header-chat -->
+
+		<!-- Chat Content Area, wrapper for chat messages -->
+		<div id="talk-box-output" class="chat-box-output">			
+
+			<!-- output -->
+			<div>
+				<div class="chat-box-main"  ng-repeat="msg in messages"  >
+					<div class="chat-box-person" n="" t="{{msg.time}}" txt="{{msg.text}}">
+						<div class="relative">
+
+					        <div class="chat-box-message-name {{msg.fromUserClass}}" >{{msg.name}}</div> <!-- find out correct 'fromUserClass' -->
+					        <div class="chat-box-message-time">{{msg.time}}</div>
+					        <div class="chat-box-message">
+								<span class="chat-box-message-pre"><b>{{msg.messagePre}}</b></span><span class="chat-box-message-norm">{{msg.text}}</span>  
+							</div>
+					        <div class="clear"></div>
+					        <div class="chat-box-person-line"></div>
+
+				       	</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- chat-message></chat-message -->
+					<!--*** Handlebars JS Template Engine. http://handlebarsjs.com/  ***-->
+					<script id="chat-box-template" type="text/x-handlebars-template">
+					<div class="chat-box-main">
+				        <div class="chat-box-person">
+							<div class="relative">
+						        <div class="chat-box-message-name {{fromUserClass}}  ">{{name}}</div>
+						        <div class="chat-box-message-time">{{time}}</div>
+						        <div class="chat-box-message">
+									<span class="chat-box-message-pre"><b>{{messagePre}}</b></span><span class="chat-box-message-norm">{{message}}</span>  
+								</div>
+						        <div class="clear"></div>
+						        <div class="chat-box-person-line"></div>
+				        	</div>
+						</div>
+				    </div>
+					</script>
+		</div>  <!--  id="talk-box-output" -->
+
+  	</div><!-- /main -->
+</body>
+</html>
