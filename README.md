@@ -1,7 +1,7 @@
 # Angular.js-Chat
 chatapp with angular.js, node.js, express.io
-
 Same as "Nodejs Chat" but build with Angular1 instead of jQuery. 
+![screenshot](screenshots/screen.jpg "Angularjs chat")
 
 ### General
 this software is for experimental and tutorial use, not for professional or commercial use. Use it at your own risk! 
@@ -46,10 +46,4 @@ monkey tested on Firefox 45, Opera 36, Chrome 48 on Ubuntu 12
 
 ### Development
 I designed an environmet with Grunt: *jshint, uglify, cssmin*
-I wanted tu use *grunt-remove-logging-calls* but simply didn't get it to work. Instead I used a Regex in Sublime Text to get rid of *console.log()* 
-for my production code. 
-
 LESS is not applied yet. It would make sense. For the case you want to fork, I suggest you apply it, but I cannot promise to accept PR ;) 
-
-Links
-https://github.com/hroesser/Node.js-Chat
