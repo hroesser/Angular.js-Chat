@@ -5,10 +5,11 @@ Same as "Nodejs Chat" but build with Angular1 instead of jQuery.
 ![screenshot](screenshots/screen.jpg "Angularjs chat")
 
 ### General
-this software is for experimental and tutorial use, not for professional or commercial use. Use it at your own risk! 
+this software is for experimental and tutorial use. Use it at your own risk! 
 
 ### Angular1 Assets
-the main assets might be the services and the directives I designed here. See further information in my wiki. (I'm preparing the wiki)
+the main assets might be the services and the directives I designed here. See further information
+[im my wiki](https://github.com/hroesser/Angular.js-Chat/wiki).
 
 ### License
 the MIT license
