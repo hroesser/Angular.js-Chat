@@ -1,6 +1,7 @@
 # Angular.js-Chat
 chatapp with angular.js, node.js, express.io
 Same as "Nodejs Chat" but build with Angular1 instead of jQuery. 
+
 ![screenshot](screenshots/screen.jpg "Angularjs chat")
 
 ### General
@@ -37,9 +38,10 @@ Server messages:
  - marked orange for a user in a current PM conversation with (private message)
 
 ### Frontend  
-HTML5, CSS3 Frontend design inspired by 'PubNub Channel Presence' 
+Non-responsive HTML5, CSS3 Frontend design inspired by 'PubNub Channel Presence' 
 https://github.com/pubnub/pubnub-chat-channel-presence
  - supports newer browsers
+ - no mobile devices
 
 ### Testing
 monkey tested on Firefox 45, Opera 36, Chrome 48 on Ubuntu 12
