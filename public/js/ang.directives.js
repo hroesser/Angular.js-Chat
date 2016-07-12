@@ -79,8 +79,5 @@ angular.module('chatApp.directives', [])
  				console.log('## dir: togl sound ON cc '+ curClass  + ' st  ' + curSoundState	);
 			}
 	    }
-
     }
-
-
 })
