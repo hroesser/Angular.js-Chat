@@ -2,13 +2,14 @@
 
 angular.module('chatApp.controllers', [])
 
-	.controller('chatAppCtrl', function ( $scope, socket, chatHelpers, appConf, userService, 
+	.controller('chatAppCtrl', function ( $scope, btfordSocket, chatHelpers, appConf, userService, 
 		   handlerChatMessages, handlerServerMessages,handlerUserlist, soundService) {
 
 		var 	chatMessages = [],
 				chatLineCount = 0,
 				serverMsgCount = 0,
-				sMsgs = [];
+				sMsgs = [],
+				socket = btfordSocket;
 
 		$scope.showChatBar = false;
 		$scope.showLogin = true;
@@ -34,7 +35,7 @@ angular.module('chatApp.controllers', [])
 
 			var userState = handlerUserlist.getUserByIndex(index);
 
-			// change style an property for the participant the user starts/ends PM 
+			// change style and property for the desired PM User
 			$scope.participants.users[index].state = userState.state;
 			if (userState.state == 'privateTo')  {
 
@@ -49,16 +50,16 @@ angular.module('chatApp.controllers', [])
 		// from Server
 		socket.on('statusMessage', function (message) {  
 
-			$scope.serverStatus 	= message.status; 	// 'READY'
+			$scope.serverStatus 	= message.status; 	// 'READY', 'ERR' 'BYE'
 			$scope.serverGreeting 	= message.text; 	// ..'Hello, please enter your name'
 
 			// the server grants the login process 
 			if (message.loggedIn === true) {  // successful login
-				// hier die login routine angularseitig
+				// login routine angularseitig
 				$scope.showChatBar = true;
 				$scope.showLogin = false;
 				$scope.disable_send = "";
-				$scope.disable_logout = "disabled";	// write HTML Attribute 
+				$scope.disable_logout = "disabled";	// write HTML attributs
 				$scope.disable_login = "disabled";
 				$scope.chatText = "";
 
@@ -102,15 +103,12 @@ angular.module('chatApp.controllers', [])
 
 		// Server sends new Userlist
 		socket.on('userList', function (data) {
-
 			if (userService.isLoggedIn() )  	{
 				//			if (userObj.loggedIn === true) 				writeUserList(data); //  
 				handlerUserlist.setUsers(data);
 				$scope.participants = { 'users': handlerUserlist.getUsers()  ,  'userCount': data.usercount   };
 			}
-
 		});
-
 
 		// Servermessage
 		socket.on('serverMessage', function (data) {
@@ -125,7 +123,6 @@ angular.module('chatApp.controllers', [])
 				}
 				$scope.serverMessages =	 handlerServerMessages.getServerMessages();
 			}
-
 		});
 
 		// Login using scope variables
@@ -137,7 +134,6 @@ angular.module('chatApp.controllers', [])
 
 		// Logout using Service variables
 		$scope.emitLogout = function () {
-
 			if (userService.isLoggedIn() )	{	
 				//
 				socket.emit('logout', {

@@ -2,7 +2,6 @@
 
 angular.module('chatApp.directives', [])
 
-
 /*** directive divUser
 **** pass through scope vars:  user.name,user.state,user.index
 **** called by user joins, leaves, private Message, state change ('away' ...)
@@ -16,7 +15,6 @@ angular.module('chatApp.directives', [])
 					</div>
  * fiddle: http://jsfiddle.net/ycBFL/342/
 */
-
 // <chatter div-user user="user"  callback-controller="togglePm(name,state,index)"   ></chatter>
 .directive('divUser', function()		{
 	return {
