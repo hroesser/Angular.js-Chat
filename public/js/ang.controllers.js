@@ -10,6 +10,7 @@ angular.module('chatApp.controllers', [])
 				serverMsgCount = 0,
 				sMsgs = [],
 				socket = btfordSocket;
+	
 
 		$scope.showChatBar = false;
 		$scope.showLogin = true;
