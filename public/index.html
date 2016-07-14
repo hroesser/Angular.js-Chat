@@ -11,24 +11,15 @@
 
     <title>angular.js chat v0.9</title>
 	<!-- script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script -->
+
 	<script src="js/jquery.1.10.2.min.js"></script>
 	<script src="js/simpleClock.min.js"></script>
 	<script src="socket.io/socket.io.js"></script>
 	<!-- Angular statisch -->
 	<script src="/js/angular1.4.0.js"></script>
-
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-animate.js"></script>
 	<!--  btford: wrapper for socket.io  https://github.com/btford/angular-socket-io -->
 	<script src="js/socketLib.min.js"></script>
-	<script src="js/ang.app.js"></script>
-
-	<!-- die ang. komponenten -->
-	<script src="js/ang.config.min.js"></script>
-	<script src="js/ang.controllers.min.js"></script>
-	<script src="js/ang.services.min.js"></script>
-	<script src="js/ang.socketHelper.min.js"></script>
-	<script src="js/ang.helpers.min.js"></script>
-	<script src="js/ang.directives.min.js"></script>
-	<script src="js/ang.filters.min.js"></script>
 
     <!-- **** Copyrights: 
 	https://github.com/ticktoo/simpleClock
@@ -36,12 +27,6 @@
 	Frontend inspired by 'PubNub Channel Presence'
 	https://github.com/pubnub/pubnub-chat-channel-presence
 	**** -->  
-
-	<script>
-		$(document).ready(function()	{
-			$('#clock').simpleClock('de');
-		});
-	</script>
 </head>
 
 <body>
@@ -167,7 +152,7 @@
 			<!-- output -->
 			<div>
 				<div class="chat-box-main"  ng-repeat="msg in messages"  >
-					<div class="chat-box-person" n="" t="{{msg.time}}" txt="{{msg.text}}">
+					<div class="chat-box-person" n="" t="{{msg.time}}" txt="{{msg.text}}"  >
 						<div class="relative">
 
 					        <div class="chat-box-message-name {{msg.fromUserClass}}" >{{msg.name}}</div> <!-- find out correct 'fromUserClass' -->
@@ -185,5 +170,22 @@
 		</div>  <!-- /id="talk-box-output" -->
 
   	</div><!-- /main -->
+
+	<!-- app -->
+	<script src="js/ang.app.js"></script>
+	<!-- angular components -->
+	<script src="js/ang.config.min.js"></script>
+	<script src="js/ang.controllers.min.js"></script>
+	<script src="js/ang.services.min.js"></script>
+	<script src="js/ang.socketHelper.min.js"></script>
+	<script src="js/ang.helpers.min.js"></script>
+	<script src="js/ang.directives.min.js"></script>
+	<script src="js/ang.filters.min.js"></script>
+	<script>
+		$(document).ready(function()	{
+			$('#clock').simpleClock('de');
+		});
+	</script>
+
 </body>
 </html>

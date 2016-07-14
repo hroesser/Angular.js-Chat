@@ -1,4 +1,5 @@
 angular.module('chatApp', [
+	'ngAnimate',
 	'chatApp.configuration',
 	'chatApp.controllers',
 	'chatApp.sockethelper',

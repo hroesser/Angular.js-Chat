@@ -491,7 +491,15 @@ a {
     -ms-user-select: none;       /* Internet Explorer/Edge */
     user-select: none;           /* Non-prefixed version, currently
                                     not supported by any browser */
-  }
+}
 .clearboth {
     clear: both;
-  }
+}
+
+/* ## Transition angular ng-enter for chat messages ## */
+.chat-box-main.ng-enter {
+        -webkit-transition:0.1s ease-in-out;
+        transition:0.1s ease-in-out;  
+        opacity: 0.4;
+        color: #f90;
+}
