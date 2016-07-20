@@ -2,8 +2,7 @@
 
 ![banner](screenshots/wiki/banner-h130.png "Banner")
 
-chatapp with angular.js, node.js, express.io
-Same as "Nodejs Chat" but build with Angular1 instead of jQuery. 
+chatapp with `angular.js, node.js, express.io`. Same as ["Nodejs Chat"](https://github.com/hroesser/Node.js-Chat) but build with Angular1 instead of jQuery. 
 
 ![screenshot](screenshots/screen.jpg "Angularjs chat")
 
