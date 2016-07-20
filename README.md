@@ -1,4 +1,7 @@
 # Angular.js-Chat
+
+![banner](screenshots/wiki/banner-h130.png "Banner")
+
 chatapp with angular.js, node.js, express.io
 Same as "Nodejs Chat" but build with Angular1 instead of jQuery. 
 
