@@ -468,8 +468,6 @@ body {
   text-align: right;
 }
 
-
-
 .text-orange {
   color: #ff9900;
 }
@@ -496,10 +494,11 @@ a {
     clear: both;
 }
 
-/* ## Transition angular ng-enter for chat messages ## */
-.chat-box-main.ng-enter {
-        -webkit-transition:0.1s ease-in-out;
-        transition:0.1s ease-in-out;  
-        opacity: 0.4;
-        color: #f90;
+/* ## Transition angular ng-enter for the last chat message ## */
+.chat-box-main.ng-enter, .update-item.ng-enter    {
+  -webkit-transition:0.1s ease-in-out;
+  transition:0.1s ease-in-out;  
+  opacity: 0.4;
+  color: #ff9900;
 }
+
